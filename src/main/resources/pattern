@@ -1,0 +1,1 @@
+log[^. ]*\.[^. ]*(warn|trace|off|info|fatal|error|debug|all)[^. ]*
