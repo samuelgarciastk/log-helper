@@ -8,7 +8,7 @@ import java.util.List;
  * Author: stk
  * Date: 18/4/1
  */
-public class PatternLoader {
+public class Loader {
     public static List<String> loadPatterns() {
         List<String> patterns = new ArrayList<>();
         try (InputStreamReader in = new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("pattern"), "UTF-8");
