@@ -1,9 +1,9 @@
 group 'com.stk'
 version '0.1.0'
 
-apply plugin: 'java'
+apply plugin: 'scala'
 
-sourceCompatibility = 10
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -11,5 +11,6 @@ repositories {
 
 dependencies {
     compile 'com.github.javaparser:javaparser-core:3.5.19'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.5'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
