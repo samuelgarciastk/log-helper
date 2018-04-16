@@ -17,7 +17,7 @@ object Parser {
       files.filter(_.isDirectory).flatMap(getFiles)
   }
 
-  def parseProject(files: List[File]): List[String] = files.par.map(FileParser.parseFile).reduce((l1, l2) => l1 ++ l2)
+  def parseProject(files: List[File]): List[String] = files.par.map(FileParser.parseFile).reduce(_ ++ _)
 
   def generate(logs: List[String], path: String): Unit = {
     if (new File(path).delete) println("Delete existing result file.")

@@ -12,13 +12,21 @@ import scala.io.Source
   * Date: 18/4/6
   */
 object FileParser {
+  private val regex = "".r
+
   def parseFile(file: File): List[String] = {
-    val compilationUnit = JavaParser.parse(file)
+    println("Parse " + file)
+    regex.findAllIn().matchData foreach {
+      m => println(m.group(1))
+    }
+  }
+
+  def parseAST(code: String): Unit = {
+    val compilationUnit = JavaParser.parse(code)
     if (compilationUnit == null) return null
     val logs = new ListBuffer[String]
     compilationUnit.accept(new LogCollector, logs)
     if (logs.isEmpty) return null
-    println("Parse " + file)
     logs.toList
   }
 
