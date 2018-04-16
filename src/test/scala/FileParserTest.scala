@@ -7,9 +7,10 @@ import org.junit.Test
   * Date: 18/4/6
   */
 class FileParserTest {
+  val path = "C:\\Users\\stk\\Downloads\\test-data\\transport\\AbstractSimpleTransportTestCase.txt"
+
   @Test
   def parseFile(): Unit = {
-    val file = "C:\\Users\\stk\\Documents\\Docs\\Papers\\EASE2018Log\\Data\\elasticsearch\\test\\framework\\src\\main\\java\\org\\elasticsearch\\transport\\MockTcpTransport.java"
-    FileParser.parseFile(new File(file)).foreach(println)
+    FileParser.parseFile(new File(path))
   }
 }
