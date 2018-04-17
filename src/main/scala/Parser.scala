@@ -13,8 +13,7 @@ object Parser {
 
   def getFiles(file: File): Array[File] = {
     val files = file.listFiles
-    files.filter(_.isFile).filter(_.getName.endsWith(".java")) ++
-      files.filter(_.isDirectory).flatMap(getFiles)
+    files.filter(_.isFile) ++ files.filter(_.isDirectory).flatMap(getFiles)
   }
 
   def parseProject(files: List[File]): List[String] = files.par.map(FileParser.parseFile).reduce(_ ++ _)
