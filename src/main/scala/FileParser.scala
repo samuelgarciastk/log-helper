@@ -1,9 +1,5 @@
 import java.io.File
 
-import com.github.javaparser.JavaParser
-import com.github.javaparser.ast.stmt.ExpressionStmt
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter
-
 import scala.collection.mutable
 import scala.io.Source
 
@@ -14,7 +10,7 @@ import scala.io.Source
 object FileParser {
   private val regex = "^\\w{11}\\s*(.*?)\\s*\\((.*?)\\s+\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} .\\d{4}\\s+(\\d+)\\) (.*)$".r
 
-  def parseFile(file: File): List[String] = {
+  def parseFile(file: File): Vector[String] = {
     println("Parse " + file)
 
     // Parse git blame file
@@ -28,33 +24,16 @@ object FileParser {
     source.close()
 
     // Parse AST
-    val compilationUnit = JavaParser.parse(code)
-    if (compilationUnit == null) return null
-    val infoMap: mutable.HashMap[Int, mutable.ListBuffer[String]] = mutable.HashMap()
-    compilationUnit.accept(new LogCollector, infoMap)
-    if (infoMap.isEmpty) return null
+    val infoMap = ASTParser.parseAST(code)
+    if (infoMap == null) return null
 
     // Merge nameMap and infoMap
     infoMap.foreach { case (index, list) => list.prepend(nameMap(index)) }
 
-//    infoMap.foreach { case (index, list) => println(index + ": " + list.head) }
-    null
+    infoMap.foreach{ case (index, list) => println(index + ": " + list.mkString(", "))}
+
+    var result: Vector[String] = Vector()
+    infoMap.foreach { case (_, list) => result = result :+ list.mkString(", ") }
+    result
   }
-
-  class LogCollector extends VoidVisitorAdapter[mutable.HashMap[Int, mutable.ListBuffer[String]]] {
-    private val patterns: List[String] = {
-      val source = Source.fromResource("pattern")
-      val list = source.getLines.toList
-      source.close()
-      list
-    }
-
-    override def visit(n: ExpressionStmt, arg: mutable.HashMap[Int, mutable.ListBuffer[String]]): Unit = {
-      super.visit(n, arg)
-      if (patterns.par.map(_.r.findFirstIn(n.toString)).exists(_.isDefined)) {
-        arg += (n.getBegin.get.line -> mutable.ListBuffer(n.toString))
-      }
-    }
-  }
-
 }

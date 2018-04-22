@@ -16,9 +16,9 @@ object Parser {
     files.filter(_.isFile) ++ files.filter(_.isDirectory).flatMap(getFiles)
   }
 
-  def parseProject(files: List[File]): List[String] = files.par.map(FileParser.parseFile).reduce(_ ++ _)
+  def parseProject(files: Vector[File]): Vector[String] = files.par.map(FileParser.parseFile).reduce(_ ++ _)
 
-  def generate(logs: List[String], path: String): Unit = {
+  def generate(logs: Vector[String], path: String): Unit = {
     if (new File(path).delete) println("Delete existing result file.")
     val writer = new PrintWriter(new File(path))
     logs.foreach(s => writer.write(s + "\n"))
