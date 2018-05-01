@@ -7,12 +7,11 @@ import org.junit.Test
   * Date: 18/4/6
   */
 class ParserTest {
-  val path = "C:\\Users\\stk\\Downloads\\test-data\\transport\\nio\\MockNioTransport.txt"
-  val path1 = "C:\\Users\\stk\\Downloads\\test-data\\transport\\AbstractSimpleTransportTestCase.txt"
+  val path = "C:\\Users\\stk\\Downloads\\test-data\\projects\\26-netty\\buffer\\src\\main\\java\\io\\netty\\buffer\\AbstractByteBuf.blame"
 
   @Test
   def parseFile(): Unit = {
-    val result = FileParser.parseFile(new File(path1))
-//    if (result != null) result.foreach(println)
+    val result = FileParser.parseFile(new File(path))
+    if (result != null) result.foreach(println)
   }
 }

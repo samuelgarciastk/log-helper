@@ -28,7 +28,7 @@ object ASTParser {
           exp.getChildNodes.forEach(f => f.accept(this, arg))
         } else {
           val matcher = patterns.head.r.findFirstMatchIn(exp.toString).get
-          val level = matcher.group(1)
+          val level = matcher.group(1).trim
           val nodeType = exp.getParentNode.get.getParentNode.get.getMetaModel.getTypeName
           arg += (exp.getBegin.get.line -> mutable.ArrayBuffer(level, nodeType, exp.toString))
         }
